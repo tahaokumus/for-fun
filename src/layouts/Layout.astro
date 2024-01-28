@@ -1,22 +1,93 @@
 ---
+import type { AstroInstance } from 'astro'
+
 interface Props {
-	title: string;
+  title: string
+  source?: URL
 }
 
-const { title } = Astro.props;
+interface Page extends AstroInstance {
+  title: string
+  source: URL
+}
+
+const pages = (await Astro.glob('../pages/*.astro')) as Page[]
+
+const { title } = Astro.props
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{`${title} | For Fun`}</title>
+  </head>
+  <body
+    class="bg-white text-slate-500 antialiased dark:bg-slate-900 dark:text-slate-400"
+  >
+    {
+      pages.length > 1 && (
+        <nav class="fixed inset-x-0 top-0 z-50 flex items-center justify-center text-sm font-semibold leading-6 text-slate-700 transition-transform dark:text-slate-200">
+          <ul class="relative flex gap-x-8 rounded-b-lg border-x border-b border-slate-900 px-6 pb-3 dark:border-slate-300">
+            {pages.map((page) => (
+              <li>
+                <a
+                  class="hover:text-sky-500 dark:hover:text-sky-400"
+                  href={page.url || '/'}
+                >
+                  {page.title}
+                </a>
+              </li>
+            ))}
+            <div class="absolute inset-x-0 -bottom-6 grid h-6 place-items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
+          </ul>
+        </nav>
+      )
+    }
+
+    <slot />
+  </body>
 </html>
+
+<script>
+  const delay = 750
+  let timeout: number
+  const nav = document.querySelector('body > nav') as HTMLElement
+
+  const toggleNav = (willHide: boolean) => {
+    if (willHide) {
+      timeout = setTimeout(() => {
+        nav.classList.toggle('-translate-y-full', willHide)
+      }, delay)
+    } else {
+      clearTimeout(timeout)
+      nav.classList.toggle('-translate-y-full', willHide)
+    }
+  }
+
+  if (nav) {
+    nav.addEventListener('mouseenter', () => toggleNav(false))
+    nav.addEventListener('mouseleave', () => toggleNav(true))
+
+    toggleNav(true)
+  }
+</script>
