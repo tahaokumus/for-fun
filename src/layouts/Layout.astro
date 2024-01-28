@@ -1,5 +1,9 @@
 ---
 import type { AstroInstance } from 'astro'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
 
 interface Props {
   title: string
@@ -26,7 +30,7 @@ const { title } = Astro.props
     <meta name="generator" content={Astro.generator} />
     <title>{`${title} | For Fun`}</title>
   </head>
-  <body class="antialiased dark:bg-slate-900">
+  <body class="font-roboto antialiased dark:bg-slate-900">
     {
       pages.length > 1 && (
         <nav class="fixed inset-x-0 top-0 z-50 flex items-center justify-center text-sm font-semibold leading-6 text-slate-700 transition-transform dark:text-slate-200 ">

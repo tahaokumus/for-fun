@@ -1,39 +1,93 @@
----
-
----
-
-<div class="slider-taha w-full h-full grid place-items-center ">
-  <slot />
+<div class="relative h-full overflow-hidden">
+  <div class="slider flex transition-transform">
+    <slot />
+  </div>
+  <div class="indicator"></div>
 </div>
 
 <script>
-  const slider = document.querySelector('.slider-taha')
-  const slides = document.querySelectorAll('.slider-taha > *')
+  const initSlider = () => {
+    const slider = document.querySelector('.slider') as HTMLElement
+    const slides = document.querySelectorAll(
+      '.slider > *'
+    ) as NodeListOf<HTMLElement>
 
-  if (slides?.length <= 1) {
-    slider.classList.remove('hidden')
+    if (slides?.length <= 1) return
+
+    let nextSlide = 1
+    let slideInterval: number
+    const slideDelay = 3000
+
+    const width = slider.offsetWidth
+
+    const next = () => {
+      slider.style.transform = `translateX(-${width * nextSlide}px)`
+
+      const currentIndex = nextSlide
+      nextSlide = (nextSlide + 1) % slides.length
+
+      const dots = document.querySelectorAll('.dot') as NodeListOf<HTMLElement>
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.add('transform', 'scale-150')
+        } else {
+          dot.classList.remove('transform', 'scale-150')
+        }
+      })
+    }
+
+    const startSlide = () => {
+      slideInterval = setInterval(next, slideDelay)
+    }
+
+    const createIndicator = () => {
+      const createDot = (i: number) => {
+        const dot = document.createElement('div')
+        dot.classList.add(
+          'dot',
+          'w-3',
+          'h-3',
+          'rounded-full',
+          'drop-shadow-md',
+          'shadow-black',
+          'bg-[#202d3d]',
+          'cursor-pointer'
+        )
+
+        if (i === 0) {
+          dot.classList.add('transform', 'scale-150')
+        }
+
+        dot.addEventListener('click', () => {
+          nextSlide = i
+          clearInterval(slideInterval)
+          next()
+          startSlide()
+        })
+        return dot
+      }
+      const indicator = document.querySelector('.indicator') as HTMLElement
+      indicator.classList.add(
+        'absolute',
+        'bottom-0',
+        'inset-x-0',
+        'flex',
+        'justify-center',
+        'p-4',
+        'gap-3',
+        'w-full',
+        'z-10'
+      )
+
+      for (let i = 0; i < slides.length; i++) {
+        const dot = createDot(i)
+        indicator.appendChild(dot)
+      }
+    }
+
+    createIndicator()
+    startSlide()
   }
 
-  slides.forEach((slide, index) => {
-    slide.classList.add('hidden')
-  })
-
-  let currentSlide = 0
-  let nextSlide = 1
-  const slideInterval = 1500
-
-  const next = () => {
-    slides[currentSlide].classList.remove('active')
-    slides[currentSlide].classList.add('hidden')
-
-    slides[nextSlide].classList.add('active')
-    slides[nextSlide].classList.remove('hidden')
-
-    currentSlide = nextSlide
-    nextSlide = (nextSlide + 1) % slides.length
-  }
-
-  slides[currentSlide].classList.add('active')
-  setInterval(next, slideInterval)
-
+  initSlider()
 </script>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Slider from '../components/Slider.astro'
+import SliderContent from '../components/SliderContent.astro'
 
 export const title = 'Sign Up Concept'
 export const source = new URL(
@@ -13,18 +14,33 @@ export const source = new URL(
     class="min-w-dvw grid min-h-dvh place-items-center bg-gradient-to-br from-[#C36C75] to-[#B54853]"
   >
     <div
-      class="flex h-[75dvh] w-[75dvw] overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/75"
+      class="grid h-[75dvh] w-[75dvw] grid-cols-1 grid-rows-2 rounded-lg bg-white shadow-2xl shadow-black/75 md:grid-cols-2 md:grid-rows-1"
     >
-      <div class="w-6/12 bg-gradient-to-br from-[#62ceba] to-[#48b5aa]">
+      <div
+        class="bg-gradient-to-br from-[#62ceba] to-[#48b5aa] font-light text-white"
+      >
         <Slider>
-          <div>Content1</div>
-          <div>Content2</div>
-          <div>Content3</div>
+          <SliderContent>
+            <h2 class="text-center text-2xl">
+              Plan your activities and control your progress online 1
+            </h2>
+          </SliderContent>
+          <SliderContent>
+            <h2 class="text-center text-2xl">
+              Plan your activities and control your progress online 2
+            </h2>
+          </SliderContent>
+          <SliderContent>
+            <h2 class="text-center text-2xl">
+              Plan your activities and control your progress online 3
+            </h2>
+          </SliderContent>
         </Slider>
       </div>
       <div
-        class="w-6/12 bg-gradient-to-br from-[#394d65] to-[#202d3d] shadow-xl shadow-black/75"
+        class="bg-gradient-to-br from-[#394d65] to-[#202d3d] text-white shadow-lg shadow-black/50"
       >
+        content
       </div>
     </div>
   </div>
