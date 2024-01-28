@@ -1,0 +1,39 @@
+---
+
+---
+
+<div class="slider-taha w-full h-full grid place-items-center ">
+  <slot />
+</div>
+
+<script>
+  const slider = document.querySelector('.slider-taha')
+  const slides = document.querySelectorAll('.slider-taha > *')
+
+  if (slides?.length <= 1) {
+    slider.classList.remove('hidden')
+  }
+
+  slides.forEach((slide, index) => {
+    slide.classList.add('hidden')
+  })
+
+  let currentSlide = 0
+  let nextSlide = 1
+  const slideInterval = 1500
+
+  const next = () => {
+    slides[currentSlide].classList.remove('active')
+    slides[currentSlide].classList.add('hidden')
+
+    slides[nextSlide].classList.add('active')
+    slides[nextSlide].classList.remove('hidden')
+
+    currentSlide = nextSlide
+    nextSlide = (nextSlide + 1) % slides.length
+  }
+
+  slides[currentSlide].classList.add('active')
+  setInterval(next, slideInterval)
+
+</script>

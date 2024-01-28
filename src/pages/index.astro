@@ -1,11 +1,31 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
+import Slider from '../components/Slider.astro'
 
-export const title = 'Sign Up Concept';
+export const title = 'Sign Up Concept'
 export const source = new URL(
-	'https://dribbble.com/shots/2878911-To-Do-App-Concept-Sign-Up'
-);
+  'https://dribbble.com/shots/2878911-To-Do-App-Concept-Sign-Up'
+)
 ---
 
 <Layout title={title} source={source}>
+  <div
+    class="min-w-dvw grid min-h-dvh place-items-center bg-gradient-to-br from-[#C36C75] to-[#B54853]"
+  >
+    <div
+      class="flex h-[75dvh] w-[75dvw] overflow-hidden rounded-lg bg-white shadow-2xl shadow-black/75"
+    >
+      <div class="w-6/12 bg-gradient-to-br from-[#62ceba] to-[#48b5aa]">
+        <Slider>
+          <div>Content1</div>
+          <div>Content2</div>
+          <div>Content3</div>
+        </Slider>
+      </div>
+      <div
+        class="w-6/12 bg-gradient-to-br from-[#394d65] to-[#202d3d] shadow-xl shadow-black/75"
+      >
+      </div>
+    </div>
+  </div>
 </Layout>
